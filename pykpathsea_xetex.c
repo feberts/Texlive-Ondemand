@@ -42,13 +42,13 @@ static unsigned dpi = 600;
 static PyObject *py_kpse_find_file(PyObject *self, PyObject *args) {
   char *filename;
   int fmt;
-  char *completefilename;
-  PyObject *returnvalue;
   if (PyArg_ParseTuple(args, "si", &filename, &fmt)) {
-    completefilename = kpathsea_find_file(kpse, filename, fmt, 0);
-    returnvalue = Py_BuildValue("s", completefilename);
+    char *completefilename = kpathsea_find_file(kpse, filename, fmt, 0);
+    PyObject *returnvalue = Py_BuildValue("s", completefilename);
     if (completefilename != NULL)
       free(completefilename);
+    if (filename != NULL)
+      free(filename);
     return returnvalue;
   }
   return NULL;
